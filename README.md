@@ -29,19 +29,19 @@ then it will use a ClassPathXmlApplicationContext. So it will expect a "configFi
 If it is set to "class" then it will use an AnnotationConfigApplicationContext. So it will expect a "configClasses"
 attribute also in your config.json. With configType you specify one or the other, and require one of "configFiles" or
 "configClasses" but never both.
-
+<pre>
 "configFiles" : {"config1.xml", "config2.xml", ...}
-
+</pre>
 configFiles is required if configType (above) is set to "xml". This is an array of Spring xml configuration file(s)
 as Strings that will be passed to the constructor of the ClassPathXmlApplicationContext that gets created
-
+<pre>
 "configClasses" : {"com.company.configuration.MyConfigClass", "com.company.configuration.OtherConfigClass"}
-
-configClasses is required if configType (above) is set to "class". This is an array of Spring Java @Configuration
+</pre>
+<i>configClasses is required if configType (above) is set to "class". This is an array of Spring Java @Configuration
 fully qualified classes as Strings (no ".class") that will be passed to the constructor of the
 AnnotationConfigApplicationContext that gets created.
 
-```
+```Java
 JsonObject configFiles = new JsonObject();
 JsonArray xmlFilesArray = new JsonArray();
 xmlFilesArray.add("spring/test-application-config.xml");
