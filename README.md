@@ -17,7 +17,7 @@ of an ApplicationContext, so that all the beans are created and ready to use bef
 access it.
 
 Here is an example of how to deploy this module correctly. Note this is code from the integration test included with
-this module. Typically, you will have the configFiles information in a json config file or your own module that is using
+this module. Typically, you will have the configFiles information in a json config file of your own module that is using
 this module.
 
 Here are the properties for the config.json file
