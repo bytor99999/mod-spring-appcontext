@@ -18,7 +18,30 @@ access it.
 
 Here is an example of how to deploy this module correctly. Note this is code from the integration test included with
 this module. Typically, you will have the configFiles information in a json config file or your own module that is using
-this module. Also typically, the DeployComplete handle() code would be where you then deploy your own Verticle and
+this module.
+
+Here are the properties for the config.json file
+
+"configType":"xml"|"class"
+
+configType is mandatory, it tells this module what type of ApplicationContext to create. If it is set to "xml"
+then it will use a ClassPathXmlApplicationContext. So it will expect a "configFiles" attribute also in your config.json.
+If it is set to "class" then it will use an AnnotationConfigApplicationContext. So it will expect a "configClasses"
+attribute also in your config.json. With configType you specify one or the other, and require one of "configFiles" or
+"configClasses" but never both.
+
+"configFiles" : {"config1.xml", "config2.xml", ...}
+
+configFiles is required if configType (above) is set to "xml". This is an array of Spring xml configuration file(s)
+as Strings that will be passed to the constructor of the ClassPathXmlApplicationContext that gets created
+
+"configClasses" : {"com.company.configuration.MyConfigClass", "com.company.configuration.OtherConfigClass"}
+
+configClasses is required if configType (above) is set to "class". This is an array of Spring Java @Configuration
+fully qualified classes as Strings (no ".class") that will be passed to the constructor of the
+AnnotationConfigApplicationContext that gets created.
+
+Also typically, the DeployComplete handle() code would be where you then deploy your own Verticle and
 Modules. This code would be in an Application Manager class like those discussed on the Vert.x documentation
 (http://vertx.io/core_manual_java.html#using-a-verticle-to-co-ordinate-loading-of-an-application).
 

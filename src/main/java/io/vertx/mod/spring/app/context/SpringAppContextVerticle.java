@@ -24,6 +24,8 @@ public class SpringAppContextVerticle extends Verticle {
 
     private static ApplicationContext applicationContext;
 
+
+
     private void createApplicationContext() {
         logger.debug("Staring to create the ApplicationContext");
         config = getContainer().config();
@@ -102,6 +104,7 @@ public class SpringAppContextVerticle extends Verticle {
     }
 
     public static ApplicationContext getApplicationContext() {
+
         return applicationContext;
     }
 }

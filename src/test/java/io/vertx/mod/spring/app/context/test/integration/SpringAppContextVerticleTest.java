@@ -44,6 +44,7 @@ public class SpringAppContextVerticleTest extends TestVerticle {
         configFiles.putArray("configFiles", xmlFilesArray);
         configFiles.putString("configType", ConfigType.XML.getValue());
 
+        // It is required to wait till the SpringAppContextVerticle deploys before doing anything else
         container.deployVerticle(SpringAppContextVerticle.class.getName(), configFiles, testerAfterDeploy);
     }
 
@@ -58,6 +59,7 @@ public class SpringAppContextVerticleTest extends TestVerticle {
         configClasses.putArray("configClasses", configClassesArray);
         configClasses.putString("configType", ConfigType.JAVA_CONFIG.getValue());
 
+        // It is required to wait till the SpringAppContextVerticle deploys before doing anything else
         container.deployVerticle(SpringAppContextVerticle.class.getName(), configClasses, testerAfterDeploy);
     }
 
