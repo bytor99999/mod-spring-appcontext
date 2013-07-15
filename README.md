@@ -41,10 +41,6 @@ configClasses is required if configType (above) is set to "class". This is an ar
 fully qualified classes as Strings (no ".class") that will be passed to the constructor of the
 AnnotationConfigApplicationContext that gets created.
 
-Also typically, the DeployComplete handle() code would be where you then deploy your own Verticle and
-Modules. This code would be in an Application Manager class like those discussed on the Vert.x documentation
-(http://vertx.io/core_manual_java.html#using-a-verticle-to-co-ordinate-loading-of-an-application).
-
 ```
 JsonObject configFiles = new JsonObject();
 JsonArray xmlFilesArray = new JsonArray();
@@ -63,6 +59,10 @@ private class DeployComplete implements Handler<AsyncResult<String>> {
     }
 }
 ```
+
+Also typically, the DeployComplete handle() code would be where you then deploy your own Verticle and
+Modules. This code would be in an Application Manager class like those discussed on the Vert.x documentation
+(http://vertx.io/core_manual_java.html#using-a-verticle-to-co-ordinate-loading-of-an-application).
 
 Make sure you also "include" this module in your module's mod.json like
 ```
