@@ -21,9 +21,9 @@ this module. Typically, you will have the configFiles information in a json conf
 this module.
 
 Here are the properties for the config.json file
-
+<pre>
 "configType":"xml"|"class"
-
+</pre>
 configType is mandatory, it tells this module what type of ApplicationContext to create. If it is set to "xml"
 then it will use a ClassPathXmlApplicationContext. So it will expect a "configFiles" attribute also in your config.json.
 If it is set to "class" then it will use an AnnotationConfigApplicationContext. So it will expect a "configClasses"
