@@ -2,23 +2,24 @@ README.MD
 
 #The Mod-Spring-AppContext module
 
-This module creates a Spring ApplicationContext for you so that you can use Spring in your Vert.x applications
-and get any beans that are within the ApplicationContext anywhere within your modules. This module does not instantiate
-any Vert.x objects and making them beans. If you want your Vert.x objects to be Spring beans, then I recommend Pidster's
-Spring modules, or the architectural route of using Embedded Vert.x Platform into your Spring application.
+This module creates a Spring ApplicationContext so that you can use the Spring Framework in your Vert.x applications.
+
+<pre>
+*note
+This module does not instantiate any Vert.x objects and making them beans. If you want your Vert.x objects to be
+Spring beans, then I recommend Pidster's Spring modules, or the architectural route of using
+Embedded Vert.x Platform into your Spring application.
+</pre>
 
 This module must be deployed before your other modules, in order for the ApplicationContext to complete instantiation
 of its beans before other modules can use them. This means because Vert.x deploys modules Asynchronously, you will need
 to first deploy this module, then in the callback of deploy for this module, then deploy all your other modules.
 
-This is a requirement because of how Vert.x works and in order to run the code that creates the ApplicationContext
-up front, which you always want to do with a Spring application. The first line of code typically is the creation
-of an ApplicationContext, so that all the beans are created and ready to use before a single user/client tries to
-access it.
+This is a requirement in order to run the code that creates the ApplicationContext done first.
 
-Here is an example of how to deploy this module correctly. Note this is code from the integration test included with
-this module. Typically, you will have the configFiles information in a json config file of your own module that is using
-this module.
+Here is an example of how to deploy this module correctly. Please note, this is code from the integration test
+included with this module. Typically, you will have the configFiles information in a json config file of your
+own module that is using this module.
 
 Here are the properties for the config.json file
 <pre>
