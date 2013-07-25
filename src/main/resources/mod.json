@@ -1,6 +1,6 @@
 {
   // Java verticle
-  "main":"io.vertx.mod.spring.app.context.SpringAppContextVerticle",
+  "main":"com.perfectworldprogramming.mod.spring.app.context.SpringAppContextVerticle",
 
 
   // If your module is going to be registered in the Vert.x module registry you will also need the following

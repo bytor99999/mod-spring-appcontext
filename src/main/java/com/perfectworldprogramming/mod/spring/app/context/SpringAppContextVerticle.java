@@ -1,4 +1,4 @@
-package io.vertx.mod.spring.app.context;
+package com.perfectworldprogramming.mod.spring.app.context;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

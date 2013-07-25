@@ -1,7 +1,7 @@
-package io.vertx.mod.spring.app.context.test.integration;
+package com.perfectworldprogramming.mod.spring.app.context.test.integration;
 
-import io.vertx.mod.spring.app.context.ConfigType;
-import io.vertx.mod.spring.app.context.SpringAppContextVerticle;
+import com.perfectworldprogramming.mod.spring.app.context.ConfigType;
+import com.perfectworldprogramming.mod.spring.app.context.SpringAppContextVerticle;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.vertx.java.core.AsyncResult;
@@ -54,8 +54,8 @@ public class SpringAppContextVerticleTest extends TestVerticle {
 
         JsonObject configClasses = new JsonObject();
         JsonArray configClassesArray = new JsonArray();
-        configClassesArray.add("io.vertx.mod.spring.app.context.test.config.TestJavaConfiguration");
-        configClassesArray.add("io.vertx.mod.spring.app.context.test.config.AnotherJavaConfiguration");
+        configClassesArray.add("TestJavaConfiguration");
+        configClassesArray.add("AnotherJavaConfiguration");
         configClasses.putArray("configClasses", configClassesArray);
         configClasses.putString("configType", ConfigType.JAVA_CONFIG.getValue());
 

@@ -1,4 +1,4 @@
-package io.vertx.mod.spring.app.context.test.config;
+package com.perfectworldprogramming.mod.spring.app.context.test.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

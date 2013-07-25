@@ -1,4 +1,4 @@
-package io.vertx.mod.spring.app.context;
+package com.perfectworldprogramming.mod.spring.app.context;
 
 /**
  * User: Mark Spritzler

@@ -90,7 +90,7 @@ def configurePom(def pom) {
             'to any module, which in turn means any other module can get Beans from the app context.'
     inceptionYear '2013'
     packaging produceJar == 'false' ? 'pom' : 'jar'
-    url 'www.github.com/vertx/mod-spring-appcontext'
+    url 'https://github.com/bytor99999/mod-spring-appcontext'
 
     developers {
       developer {
@@ -101,7 +101,7 @@ def configurePom(def pom) {
     }
 
     scm {
-      url 'www.github.com/vertx/mod-spring-appcontext'
+      url 'https://github.com/bytor99999/mod-spring-appcontext'
     }
 
     licenses {
