@@ -11,9 +11,19 @@ Spring beans, then I recommend Pidster's Spring modules, or the architectural ro
 Embedded Vert.x Platform into your Spring application.
 </pre>
 
+In order to use this module, the module's classes will also need to be in the classpath of any module you want to use
+this in. That way you will have access to the SpringAppContextVerticle class in your code to retrieve the ApplicationContext
+within your module.
+
 This module must be deployed before your other modules, in order for the ApplicationContext to complete instantiation
 of its beans before other modules can use them. This means because Vert.x deploys modules Asynchronously, you will need
 to first deploy this module, then in the callback of deploy for this module, then deploy all your other modules.
+
+<pre>
+*note
+Vert.x does have versions of deploy that is not asynchronous, however, you will tend to use the asynchronous ones to
+get your Vert.x application started up faster.
+</pre>
 
 This is a requirement in order to run the code that creates the ApplicationContext done first.
 
