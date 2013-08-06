@@ -24,21 +24,6 @@ Please read this if you intend to contribute to the project.
 
 ## Submitting the changes
 
-Before submitting your pull request you must sign the [Eclipse Foundation Contributor License Agreement](http://www.eclipse.org/legal/CLA.php).
-
-We will NOT ACCEPT any contributions without this first being signed.
-
-To sign the Eclipse CLA you need to:
-
-* Obtain an Eclipse Foundation userid. Anyone who currently uses Eclipse Bugzilla or Gerrit systems already has one of those.
-If you don’t, you need to [register](https://dev.eclipse.org/site_login/createaccount.php).
-
-* Login into the [projects portal](https://projects.eclipse.org/), select “My Account”, and then the “Contributor License Agreement” tab.
- 
-## After submitting
-
-* Once you have signed the Eclipse CLA, make a note on the github issue that you have signed the CLA, and then you can submit a pull request via github.
-* Do not use your branch for any other development, otherwise further changes that you make will be visible in the PR.
-
+ * Just do a standard pull request
 
 

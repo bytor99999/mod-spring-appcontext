@@ -6,25 +6,28 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.core.logging.Logger;
+import org.vertx.java.core.logging.impl.LoggerFactory;
 import org.vertx.java.platform.Verticle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Verticle that will create an ApplicationContext and assign it to a static member.
+ *
+ * You should only deploy one instance of this Verticle in your application, or one instance of this Module in your application
+ * because you only want one ApplicationContext to be created. And even if you do try to deploy more than one instance
+ * there will still be only one ApplicationContext created. There is no need or ability to make more than one instance.
+ *
  * User: Mark Spritzler
- * Date: 7/8/13
- * Time: 2:16 PM
  */
 public class SpringAppContextVerticle extends Verticle {
 
-    private Logger logger;
+    private Logger logger = LoggerFactory.getLogger(SpringAppContextVerticle.class);
 
     private JsonObject config;
 
-    private static ApplicationContext applicationContext;
-
-
+    static ApplicationContext applicationContext;
 
     private void createApplicationContext() {
         logger.debug("Staring to create the ApplicationContext");
@@ -63,6 +66,7 @@ public class SpringAppContextVerticle extends Verticle {
 
         logger.debug("Creating an ApplicationContext with xml configuration");
         applicationContext = new ClassPathXmlApplicationContext(xmlFiles);
+        logger.info("Application Context has been created");
     }
 
     private void createJavaConfigBasedApplicationContext() {
@@ -92,6 +96,7 @@ public class SpringAppContextVerticle extends Verticle {
             }
             logger.debug("Creating an ApplicationContext with Java Config classes configuration");
             applicationContext = new AnnotationConfigApplicationContext((Class[])clazzes.toArray());
+            logger.info("Application Context has been created");
         }
     }
 
@@ -100,11 +105,13 @@ public class SpringAppContextVerticle extends Verticle {
         super.start();
         logger = container.logger();
         config = container.config();
-        createApplicationContext();
+        // If someone tries to deploy this more than once, this will make sure we still only create one ApplicationContext instance
+        if (applicationContext == null) {
+            createApplicationContext();
+        }
     }
 
     public static ApplicationContext getApplicationContext() {
-
         return applicationContext;
     }
 }
