@@ -1,9 +1,6 @@
 package com.perfectworldprogramming.mod.spring.app.context.test.integration;
 
-import com.perfectworldprogramming.mod.spring.app.context.SpringAppContextVerticle;
-import org.springframework.context.ApplicationContext;
 import org.vertx.java.core.Handler;
-import org.vertx.java.core.eventbus.EventBus;
 import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.platform.Verticle;
 

@@ -14,9 +14,9 @@ import org.vertx.testtools.VertxAssert;
 import static org.junit.Assert.*;
 
 /*
- * Copyright 2013 Red Hat, Inc.
+ * Copyright 2013 Perfect World Programming, LLC.
  *
- * Red Hat licenses this file to you under the Apache License, version 2.0
+ * Perfect World Programming licenses this file to you under the Apache License, version 2.0
  * (the "License"); you may not use this file except in compliance with the
  * License.  You may obtain a copy of the License at:
  *
@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
  * License for the specific language governing permissions and limitations
  * under the License.
  *
- * @author <a href="http://tfox.org">Tim Fox</a>
+ * @author <a href="http://www.perfectworldprogramming.com">Mark Spritzler</a>
  */
 public class SpringAppContextVerticleTest extends TestVerticle {
     DeployComplete testerAfterDeploy = new DeployComplete();
