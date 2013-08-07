@@ -25,19 +25,21 @@ public class SpringApplicationContextHolder {
     static ApplicationContext applicationContext;
 
     public static void createApplicationContext(JsonObject config) {
-         SpringApplicationContextHolder.config = config;
-        logger.debug("Staring to create the ApplicationContext");
-        String configType = config.getString("configType");
-        if (configType == null) {
-            throw new IllegalArgumentException("configType is a mandatory configuration that must be set");
-        }
-        if (ConfigType.XML.getValue().equals(configType)) {
-            createXMLBasedApplicationContext();
-        } else if (ConfigType.JAVA_CONFIG.getValue().equals(configType)) {
-            createJavaConfigBasedApplicationContext();
-        } else {
-            throw new IllegalArgumentException("illegal configTye: " + configType +
-            " must be xml or class");
+        if (applicationContext != null) {
+            SpringApplicationContextHolder.config = config;
+            logger.debug("Staring to create the ApplicationContext");
+            String configType = config.getString("configType");
+            if (configType == null) {
+                throw new IllegalArgumentException("configType is a mandatory configuration that must be set");
+            }
+            if (ConfigType.XML.getValue().equals(configType)) {
+                createXMLBasedApplicationContext();
+            } else if (ConfigType.JAVA_CONFIG.getValue().equals(configType)) {
+                createJavaConfigBasedApplicationContext();
+            } else {
+                throw new IllegalArgumentException("illegal configTye: " + configType +
+                " must be xml or class");
+            }
         }
     }
 

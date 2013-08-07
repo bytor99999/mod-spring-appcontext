@@ -12,5 +12,5 @@
   // Optional fields
   "developers": ["Mark Spritzler", "Paul Zain", "Steve Gargan", "Josh Rehman", "Kelly Roman", "Eric Colvin"],
   "keywords": ["gorpy", "spring framework", "applicationContext", "beans"],
-  "homepage": "url to your project page"
+  "homepage": "https://github.com/bytor99999/mod-spring-appcontext"
 }
