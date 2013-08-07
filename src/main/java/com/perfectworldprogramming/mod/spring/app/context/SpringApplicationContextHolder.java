@@ -25,7 +25,7 @@ public class SpringApplicationContextHolder {
     static ApplicationContext applicationContext;
 
     public static void createApplicationContext(JsonObject config) {
-        if (applicationContext != null) {
+        if (applicationContext == null) {
             SpringApplicationContextHolder.config = config;
             logger.debug("Staring to create the ApplicationContext");
             String configType = config.getString("configType");
