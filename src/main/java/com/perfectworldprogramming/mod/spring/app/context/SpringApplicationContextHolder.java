@@ -3,37 +3,30 @@ package com.perfectworldprogramming.mod.spring.app.context;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.vertx.java.core.Future;
 import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.core.logging.Logger;
 import org.vertx.java.core.logging.impl.LoggerFactory;
-import org.vertx.java.platform.Verticle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Verticle that will create an ApplicationContext and assign it to a static member.
- *
- * You should only deploy one instance of this Verticle in your application, or one instance of this Module in your application
- * because you only want one ApplicationContext to be created. And even if you do try to deploy more than one instance
- * there will still be only one ApplicationContext created. There is no need or ability to make more than one instance.
- *
  * User: Mark Spritzler
+ * Date: 8/6/13
+ * Time: 7:48 PM
  */
-@Deprecated
-public class SpringAppContextVerticle extends Verticle {
+public class SpringApplicationContextHolder {
 
-    private Logger logger = LoggerFactory.getLogger(SpringAppContextVerticle.class);
+    private static Logger logger = LoggerFactory.getLogger(SpringAppContextVerticle.class);
 
-    private JsonObject config;
+    private static JsonObject config;
 
     static ApplicationContext applicationContext;
 
-    private void createApplicationContext() {
+    public static void createApplicationContext(JsonObject config) {
+         SpringApplicationContextHolder.config = config;
         logger.debug("Staring to create the ApplicationContext");
-        config = getContainer().config();
         String configType = config.getString("configType");
         if (configType == null) {
             throw new IllegalArgumentException("configType is a mandatory configuration that must be set");
@@ -48,7 +41,7 @@ public class SpringAppContextVerticle extends Verticle {
         }
     }
 
-    private void createXMLBasedApplicationContext() {
+    private static void createXMLBasedApplicationContext() {
         JsonArray jsonArrayOfXmlFiles = config.getValue("configFiles");
         if (jsonArrayOfXmlFiles == null) {
             throw new IllegalArgumentException("xml based context requires configFiles configuration property to be set");
@@ -71,7 +64,7 @@ public class SpringAppContextVerticle extends Verticle {
         logger.info("Application Context has been created");
     }
 
-    private void createJavaConfigBasedApplicationContext() {
+    private static void createJavaConfigBasedApplicationContext() {
         JsonArray jsonArrayOfClassStrings = config.getValue("configClasses");
         if (jsonArrayOfClassStrings == null) {
             throw new IllegalArgumentException("java config based context requires configClasses configuration property to be set");
@@ -99,20 +92,6 @@ public class SpringAppContextVerticle extends Verticle {
             logger.debug("Creating an ApplicationContext with Java Config classes configuration");
             applicationContext = new AnnotationConfigApplicationContext((Class[])clazzes.toArray());
             logger.info("Application Context has been created");
-        }
-    }
-
-    @Override
-    public void start(Future<Void> startedResult) {
-        super.start(startedResult);
-        logger = container.logger();
-        config = container.config();
-        // If someone tries to deploy this more than once, this will make sure we still only create one ApplicationContext instance
-        if (applicationContext == null) {
-            createApplicationContext();
-            startedResult.setResult(null);
-        } else {
-            startedResult.setResult(null);
         }
     }
 

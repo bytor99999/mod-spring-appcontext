@@ -12,24 +12,21 @@ Embedded Vert.x Platform into your Spring application.
 </pre>
 
 In order to use this module, the module's classes will also need to be in the classpath of any module you want to use
-this in. That way you will have access to the SpringAppContextVerticle class in your code to retrieve the ApplicationContext
+this in. That way you will have access to the SpringApplicationContextHolder class in your code to retrieve the ApplicationContext
 within your module.
 
-This module must be deployed before your other modules, in order for the ApplicationContext to complete instantiation
-of its beans before other modules can use them. This means because Vert.x deploys modules Asynchronously, you will need
-to first deploy this module, then in the callback of deploy for this module, then deploy all your other modules.
-
-<pre>
-*note
-Vert.x does have versions of deploy that is not asynchronous, however, you will tend to use the asynchronous ones to
-get your Vert.x application started up faster.
-</pre>
+you should create your ApplicationContext first before deploying any Verticles or modules in order for the ApplicationContext to complete instantiation
+of its beans before other modules can use them.
 
 This is a requirement in order to run the code that creates the ApplicationContext done first.
 
-Here is an example of how to deploy this module correctly. Please note, this is code from the integration test
+<pre>
+This is mostly a library module to "includes" and not a module or Verticle to deploy.
+</pre>
+
+Here is an example of how to run this "module" correctly. Please note, this is code from the integration test
 included with this module. Typically, you will have the configFiles information in a json config file of your
-own module that is using this module.
+own module that is using this module. Or you can instantiate a JsonObject and add the information to it using the api.
 
 Here are the properties for the config.json file
 <pre>
@@ -53,37 +50,34 @@ fully qualified classes as Strings (no ".class") that will be passed to the cons
 AnnotationConfigApplicationContext that gets created.
 
 ```Java
-JsonObject configFiles = new JsonObject();
+JsonObject configFile = new JsonObject();
 JsonArray xmlFilesArray = new JsonArray();
 xmlFilesArray.add("spring/test-application-config.xml");
 xmlFilesArray.add("spring/another-config.xml");
-configFiles.putArray("configFiles", xmlFilesArray);
-configFiles.putString("configType", ConfigType.XML.getValue());
+configFile.putArray("configFiles", xmlFilesArray);
+configFile.putString("configType", ConfigType.XML.getValue());
 
-container.deployVerticle(SpringAppContextVerticle.class.getName(), configFiles, new DeployComplete());
+SpringApplicationContextHolder.createApplicationContext(configFile)
 
+// Now anywhere in your code to retreive the ApplicationContext just call
+ApplicationContext context = SpringApplicationContextHolder.getApplicationContext();
 
-private class DeployComplete implements Handler<AsyncResult<String>> {
-    @Override
-    public void handle(AsyncResult<String> event) {
-        ApplicationContext context = SpringAppContextVerticle.getApplicationContext();
-    }
-}
 ```
 
-Also typically, the DeployComplete handle() code would be where you then deploy your own Verticle and
-Modules. This code would be in an Application Manager class like those discussed on the Vert.x documentation
-(http://vertx.io/core_manual_java.html#using-a-verticle-to-co-ordinate-loading-of-an-application).
-
-Make sure you also "include" this module in your module's mod.json like
+Make sure you also "includes" this module in your module's mod.json like
+<pre>
+I am still not sure this is necessary. If you see some Spring exceptions about the xml namespace. Try removing the includes.
+I had to do this in the Integration tests in a module of ours in another application.
+</pre>
 ```
 {
-  "includes":"io.vertx~mod-spring-appcontext~1.0.0-B1"
+  "includes":"io.vertx~mod-spring-appcontext~1.0.0-CR3"
 }
 ```
 And if you need more Spring jars than Core Spring then you must create another module that
 only contains those other Spring Jars and use includes in your module to load these jars into a parent
 classloader, so that the Spring jars are available to all modules, Verticles in your module.
+
 Yes, it is a bit convoluted to add jar files with classes that need to be available through your Vert.x application
 but that is how Vert.x works. Please see the Vert.x Modules documentation that better explains how this all works.
 Because, it confuses me too. But it does work.
