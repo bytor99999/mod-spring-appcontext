@@ -1,21 +1,33 @@
 package com.perfectworldprogramming.mod.spring.app.context.test.integration;
 
-import com.perfectworldprogramming.mod.spring.app.context.SpringAppContextVerticle;
+import com.perfectworldprogramming.mod.spring.app.context.ConfigType;
 import com.perfectworldprogramming.mod.spring.app.context.SpringApplicationContextHolder;
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.eventbus.Message;
-import org.vertx.java.platform.Verticle;
+import org.vertx.java.core.json.JsonArray;
+import org.vertx.java.core.json.JsonObject;
+import org.vertx.testtools.TestVerticle;
+import org.vertx.testtools.VertxAssert;
 
 /**
  * User: Mark Spritzler
  * Date: 8/6/13
  * Time: 2:43 PM
  */
-public class StaticMemberHolderTestingVerticle extends Verticle {
+public class StaticMemberHolderTestingVerticle extends TestVerticle {
 
-  @Override
-  public void start() {
+  @Test
+  public void test() {
+      JsonObject configFiles = new JsonObject();
+      JsonArray xmlFilesArray = new JsonArray();
+      xmlFilesArray.add("spring/another-config.xml");
+      xmlFilesArray.add("spring/test-application-config.xml");
+      configFiles.putArray("configFiles", xmlFilesArray);
+      configFiles.putString("configType", ConfigType.XML.getValue());
+      SpringApplicationContextHolder.createApplicationContext(configFiles);
+
       vertx.eventBus().registerHandler("test", new Handler<Message>() {
           @Override
           public void handle(Message event) {
@@ -23,7 +35,6 @@ public class StaticMemberHolderTestingVerticle extends Verticle {
               ApplicationContext context = SpringApplicationContextHolder.getApplicationContext();
               if (context == null) {
                   System.out.println("Doesn't work inside another project's Verticle. context is null");
-
               } else {
                   System.out.println("****************************************************");
                   System.out.println("Accessing the ApplicationContext in another Verticle/Module");
@@ -33,7 +44,10 @@ public class StaticMemberHolderTestingVerticle extends Verticle {
                   }
               }
               event.reply("Got your message, thanks");
+              VertxAssert.testComplete();
           }
       });
+
+      vertx.eventBus().send("test", "BooYah");
   }
 }

@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class SpringApplicationContextHolder {
 
-    private static Logger logger = LoggerFactory.getLogger(SpringAppContextVerticle.class);
+    private static Logger logger = LoggerFactory.getLogger(SpringApplicationContextHolder.class);
 
     private static JsonObject config;
 
