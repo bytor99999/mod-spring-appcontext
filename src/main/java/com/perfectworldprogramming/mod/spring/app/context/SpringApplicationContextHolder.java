@@ -57,13 +57,15 @@ public class SpringApplicationContextHolder {
             if (xmlFiles[0] == null) {
                 throw new IllegalArgumentException("xml based context requires configFiles configuration property to be set with an array of Strings");
             }
+
+            logger.debug("Creating an ApplicationContext with xml configuration");
+            applicationContext = new ClassPathXmlApplicationContext(xmlFiles);
+            logger.info("Application Context has been created");
         } catch (ClassCastException notStringsException) {
             throw new IllegalArgumentException("xml based context requires configFiles configuration property to be set with an array of String type only");
+        } catch (Throwable e) {
+          logger.info("Error creating Spring Application Context", e);
         }
-
-        logger.debug("Creating an ApplicationContext with xml configuration");
-        applicationContext = new ClassPathXmlApplicationContext(xmlFiles);
-        logger.info("Application Context has been created");
     }
 
     private static void createJavaConfigBasedApplicationContext() {
@@ -92,7 +94,11 @@ public class SpringApplicationContextHolder {
                 }
             }
             logger.debug("Creating an ApplicationContext with Java Config classes configuration");
-            applicationContext = new AnnotationConfigApplicationContext((Class[])clazzes.toArray());
+            try {
+              applicationContext = new AnnotationConfigApplicationContext(clazzes.toArray(new Class[] {}));
+            } catch (Throwable e) {
+              logger.info("Error creating Spring Application Context", e);
+            }
             logger.info("Application Context has been created");
         }
     }
