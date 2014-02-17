@@ -13,6 +13,7 @@ import org.vertx.java.core.logging.impl.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * User: Mark Spritzler
@@ -27,6 +28,9 @@ public class SpringApplicationContextHolder {
 
     static ApplicationContext applicationContext;
 
+    /** restrict initialization to a single worker */
+    private static final ReentrantLock initializationLock = new ReentrantLock();
+
     private static Vertx vertx;
 
     /**
@@ -40,22 +44,29 @@ public class SpringApplicationContextHolder {
     }
 
     public static void createApplicationContext(JsonObject config) {
-        if (applicationContext == null) {
-            SpringApplicationContextHolder.config = config;
-            logger.debug("Staring to create the ApplicationContext");
-            String configType = config.getString("configType");
-            if (configType == null) {
-                throw new IllegalArgumentException("configType is a mandatory configuration that must be set");
-            }
-            if (ConfigType.XML.getValue().equals(configType)) {
-                createXMLBasedApplicationContext();
-            } else if (ConfigType.JAVA_CONFIG.getValue().equals(configType)) {
-                createJavaConfigBasedApplicationContext();
-            } else {
-                throw new IllegalArgumentException("illegal configTye: " + configType +
-                " must be xml or class");
-            }
-        }
+       try {
+         initializationLock.lock();
+         if (applicationContext == null) {
+           SpringApplicationContextHolder.config = config;
+           logger.debug("Staring to create the ApplicationContext");
+           String configType = config.getString("configType");
+           if (configType == null) {
+             throw new IllegalArgumentException("configType is a mandatory configuration that must be set");
+           }
+           if (ConfigType.XML.getValue().equals(configType)) {
+             createXMLBasedApplicationContext();
+           } else if (ConfigType.JAVA_CONFIG.getValue().equals(configType)) {
+             createJavaConfigBasedApplicationContext();
+           } else {
+             throw new IllegalArgumentException("illegal configTye: " + configType + " must be xml or class");
+           }
+
+         } else {
+           logger.debug("App context already created");
+         }
+       } finally {
+         initializationLock.unlock();
+       }
     }
 
     private static void createXMLBasedApplicationContext() {
