@@ -1,0 +1,15 @@
+{
+  "system": true,
+  "resident": true,
+
+  // If your module is going to be registered in the Vert.x module registry you will also need the following
+  // mandatory fields
+  "description":"Vert.x module that creates a Spring Application Context that can be made available to any module, which in turn means any other module can get Beans from the app context.",
+  "licenses": ["The Apache Software License Version 2.0"],
+  "author": "Mark Spritzler",
+
+  // Optional fields
+  "developers": ["Mark Spritzler", "Paul Zain", "Steve Gargan", "Josh Rehman", "Kelly Roman", "Eric Colvin"],
+  "keywords": ["gorpy", "spring framework", "applicationContext", "beans"],
+  "homepage": "https://github.com/bytor99999/mod-spring-appcontext"
+}
