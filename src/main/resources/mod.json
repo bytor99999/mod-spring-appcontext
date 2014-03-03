@@ -9,7 +9,7 @@
   "author": "Mark Spritzler",
 
   // Optional fields
-  "developers": ["Mark Spritzler", "Paul Zain", "Steve Gargan", "Josh Rehman", "Kelly Roman", "Eric Colvin"],
+  "developers": ["Mark Spritzler", "Paul Zain", "Steve Gargan", "Kelly Roman", "Eric Colvin"],
   "keywords": ["gorpy", "spring framework", "applicationContext", "beans"],
   "homepage": "https://github.com/bytor99999/mod-spring-appcontext"
 }
